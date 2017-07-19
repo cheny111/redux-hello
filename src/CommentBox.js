@@ -17,15 +17,17 @@ export default class  CommentBox extends React.Component {
     this.textInput.value=''
   }
   render(){
+    console.log(this.props);
     let commentList=this.state.comments.map(item=>(
       <li className="comment" key={Math.random()}>{item}</li>
     ))
+
     return(
       <div className='comment-box'>
         {commentList}
         <form className="comment-form" onSubmit={this.handleSubmit.bind(this)}>
           <input type="text" className="input" ref={(value)=>this.textInput=value}/>
-          <button type="submit" className="submit-btn" >提交</button>
+          <button type="submit" className="submit-btn" style={{background:this.props.Bgc}}>提交</button>
         </form>
         <div className="underline"></div>
       </div>

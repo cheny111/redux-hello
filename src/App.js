@@ -8,7 +8,8 @@ class App extends Component {
     return (
       <div>
         <PostBody/>
-        <CommentBox/>
+        <CommentBox Bgc='lightgreen'/>
+
       </div>
     );
   }
