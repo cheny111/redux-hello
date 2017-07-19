@@ -1,36 +1,39 @@
 import React from 'react';
+import store from './store.js';
 
 export default class  CommentBox extends React.Component {
-  constructor() {
-    super()
-    this.state={
-      comments:['hello','world']
+  state={
+    comments:store.getState()
+  }
+  handleSubmit = (e) => {
+    e.preventDefault()
+      let newComment = this.commentInput.value
+      console.log(store.getState())
+      store.dispatch({type:'ADD_COMMENT',comment:newComment})
+      console.log(store.getState())
+      this.setState({
+        comments:store.getState()
+      })
+      this.commentForm.reset()
+    }
+
+    render() {
+      console.log(store.getState())
+      let comments = store.getState()
+      return (
+        <div className="comment-box">
+          {
+            comments.map(item => (
+              <li className="comment" key={Math.random()}>{item}</li>
+            ))
+          }
+          <form ref={value => this.commentForm = value}
+            onSubmit={this.handleSubmit} className="comment-form">
+            <input type="text" className="input" ref={value => this.commentInput = value} />
+            <button type="submit" className="submit-btn">提交</button>
+          </form>
+          <div className="underline"></div>
+        </div>
+      );
     }
   }
-  handleSubmit(e){
-    e.preventDefault()
-    console.log(this.textInput.value)
-    let newcomment=this.textInput.value
-    this.setState({
-      comments:[...this.state.comments,newcomment]
-    })
-    this.textInput.value=''
-  }
-  render(){
-    console.log(this.props);
-    let commentList=this.state.comments.map(item=>(
-      <li className="comment" key={Math.random()}>{item}</li>
-    ))
-
-    return(
-      <div className='comment-box'>
-        {commentList}
-        <form className="comment-form" onSubmit={this.handleSubmit.bind(this)}>
-          <input type="text" className="input" ref={(value)=>this.textInput=value}/>
-          <button type="submit" className="submit-btn" style={{background:this.props.Bgc}}>提交</button>
-        </form>
-        <div className="underline"></div>
-      </div>
-    )
-  }
-}
